@@ -59,13 +59,11 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException("item cannot be null");
         }
-        Node newTail = new Node(item, head, null);
+        Node newTail = new Node(item, tail, null);
         if (tail != null) {
             tail.next = newTail;
         }
-        else if (head != null) {
-            head.next = newTail;
-        } else {
+        else {
             head = newTail;
         }
         tail = newTail;
@@ -81,8 +79,10 @@ public class Deque<Item> implements Iterable<Item> {
         Node oldHead = head;
         head = head.next;
         if (head != null) {
+            // More than one in queue.
             head.previous = null;
         } else {
+            // Now empty.
             tail = null;
         }
         numItems--;
@@ -98,9 +98,11 @@ public class Deque<Item> implements Iterable<Item> {
         Node oldTail = tail;
         tail = oldTail.previous;
         if (tail != null) {
+            // More than one in queue.
             tail.next = null;
         }
         else {
+            // Now empty.
             head = null;
         }
         numItems--;
@@ -122,11 +124,14 @@ public class Deque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return position.next != null;
+            return position != null;
         }
 
         @Override
         public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("iterator is exhausted");
+            }
             Item item = position.current;
             position = position.next;
             return item;

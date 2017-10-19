@@ -44,8 +44,10 @@ public class RandomizedQueueTest {
         for (int i = 0; i < 10; i++) {
             q.enqueue(i);
         }
-        Integer sample = q.sample();
-        Assert.assertTrue(sample < 10);
+        for (int i = 0; i < 100; i++) {
+            Integer sample = q.sample();
+            Assert.assertTrue(sample < 10);
+        }
         Assert.assertEquals(10, q.size());
     }
 

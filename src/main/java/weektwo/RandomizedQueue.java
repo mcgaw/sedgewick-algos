@@ -13,11 +13,13 @@ import edu.princeton.cs.algs4.StdRandom;
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // Array size scales in powers of 2.
-    private static final int INITIAL_SIZE = 8;
+    private static final int INITIAL_SIZE = 1;
     private Item[] items;
-    // Stack to store unused array indexes. It follows
-    // the size of the main array, although this is slightly
-    // wasteful.
+    // An array position in next stores the array
+    // index in items of the next non null Item.
+    // Creates effectively a single linked list for
+    // fast traversal of items.
+   
     private int[] unused;
     // Pointer to the head of the unused stack.
     private int unusedPointer;
@@ -41,7 +43,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // Check if the queue is empty. 
     public boolean isEmpty() {
-        return unusedPointer == unused.length;
+        return size() == 0;
     }
 
     // Return the number of Items in the RandomizedQueue.
@@ -74,6 +76,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     }
 
+    private int getNthPosition(int n) {
+        assert n < size();
+
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null && n == 0) {
+                return i;
+            }
+            if (items[i] != null && n > 0) {
+                n--;
+            }
+        }
+        throw new IllegalStateException("incorrect number of items in RandomizedQueue");
+    }
+
     // Remove an Item from the RandomizedQueue in
     // a uniformly random manner.
     public Item dequeue() {
@@ -81,22 +97,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException("the RandomizedQueue is empty");
         }
         int initialSize = size();
-        int toRemove;
-        do {
-            toRemove = StdRandom.uniform(0, items.length);
-        } while (items[toRemove] == null);
-
-        // Removing an item results in an empty
-        // items array position than can be reused.
-        Item removed = items[toRemove];
-        items[toRemove] = null;
+        int toRemove = StdRandom.uniform(0, size());
+        Item removed = null;
+        // Loop counts through the non-null entries
+        // in items until toRemove value is reached.
+        int removePos = getNthPosition(toRemove);
+        removed = items[removePos];
+        // Free for reuse.
+        items[removePos] = null;
         // Put empty slot at top of stack.
         unusedPointer++;
-        unused[unusedPointer] = toRemove;
+        unused[unusedPointer] = removePos;
+        assert removed != null;
 
         // Check if the number of occupied elements is
         // less than a quarter of the overall array size.
-        if (size() > INITIAL_SIZE && unusedPointer > (3*items.length/4)) {
+        if (size() > INITIAL_SIZE && unusedPointer >= (3*items.length/4)) {
             // Shrink to half the size.
             int newSize = items.length / 2;
             Item[] newItems = (Item[]) new Object[newSize];
@@ -129,11 +145,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // a uniformly random manner but don't remove
     // it.
     public Item sample() {
-        int randomPos;
-        do {
-            randomPos = StdRandom.uniform(0, items.length);
-        } while (items[randomPos] == null);
-        return items[randomPos];
+        if (size() == 0) {
+            throw new NoSuchElementException("the RandomizedQueue is empty");
+        }
+        int randomPos = StdRandom.uniform(0, size());
+        return items[getNthPosition(randomPos)];
     }
 
     private class QueueIterator implements Iterator<Item> {
@@ -166,6 +182,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         @Override
         public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("iterator exhaused");
+            }
             pos++;
             return iterArray[positions[pos-1]];
         }
