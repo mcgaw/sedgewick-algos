@@ -15,11 +15,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // Array size scales in powers of 2.
     private static final int INITIAL_SIZE = 1;
     private Item[] items;
-    // An array position in next stores the array
-    // index in items of the next non null Item.
-    // Creates effectively a single linked list for
-    // fast traversal of items.
-   
     private int[] unused;
     // Pointer to the head of the unused stack.
     private int unusedPointer;
