@@ -40,6 +40,12 @@ public class LineSegment {
         p.drawTo(q);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.q == ((LineSegment) obj).q &&
+            this.p == ((LineSegment) obj).p;
+    }
+
     /**
      * Returns a string representation of this line segment
      * This method is provide for debugging;

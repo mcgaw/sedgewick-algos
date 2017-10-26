@@ -8,11 +8,11 @@ import org.junit.Test;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 
-public class BruteCollinearTest {
+public class CollinearTest {
 
 
     private Point[] loadPoints(String fileName) {
-        String path = BruteCollinearTest.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        String path = CollinearTest.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         In file = new In("file://"+path+"weekthree/collineartests/"+fileName);
         int numberPoints = file.readInt();
         Point[] points = new Point[numberPoints];
@@ -26,11 +26,11 @@ public class BruteCollinearTest {
     }
 
     @Test
-    public void testinput20() {
-        Point[] sample = loadPoints("input40.txt");
+    public void testinput40() {
+        Point[] sample = loadPoints("input8.txt");
 
         BruteCollinearPoints collinear = new BruteCollinearPoints(sample);
-        Assert.assertEquals(9, collinear.numberOfSegments());
+        Assert.assertEquals(2, collinear.numberOfSegments());
 
         /* 
         StdDraw.setCanvasSize(500, 500);
@@ -41,6 +41,15 @@ public class BruteCollinearTest {
         }
         StdDraw.pause(100000);
         */
+    }
+
+    @Test
+    public void testFastSegmentFind() {
+        Point[] sample = loadPoints("input8.txt");
+
+        FastCollinearPoints collinear = new FastCollinearPoints(sample);
+        Assert.assertEquals(2, collinear.numberOfSegments());
+
     }
 
 }

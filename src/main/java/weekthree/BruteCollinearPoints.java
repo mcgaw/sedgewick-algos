@@ -27,7 +27,7 @@ public class BruteCollinearPoints {
                     continue;
                 }
                 int collinearPoints = 0;
-                System.out.println("looking for points between "+pointi+" and "+pointj);
+                // System.out.println("looking for points between "+pointi+" and "+pointj);
                 for (int k = 0; k < points.length; k++) {
                     if (k == i || k == j) {
                         continue;
@@ -39,7 +39,7 @@ public class BruteCollinearPoints {
                         ((pointi.x() <= pointk.x() && pointk.x() <= pointj.x()) ||
                         (pointi.x() >= pointk.x() && pointk.x() >= pointj.x()))) {
                         collinearPoints++;
-                        System.out.println(pointk+" is collinear with "+pointi+" and "+pointj);
+                        // System.out.println(pointk+" is collinear with "+pointi+" and "+pointj);
                     }
                 }
                 if (collinearPoints >= 2) {
