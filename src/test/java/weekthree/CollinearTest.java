@@ -1,7 +1,5 @@
 package weekthree;
 
-import java.awt.Color;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,31 +23,131 @@ public class CollinearTest {
         return points;
     }
 
-    @Test
-    public void testinput40() {
-        Point[] sample = loadPoints("input8.txt");
-
-        BruteCollinearPoints collinear = new BruteCollinearPoints(sample);
-        Assert.assertEquals(2, collinear.numberOfSegments());
-
-        /* 
+    private void draw(LineSegment[] segments) {
         StdDraw.setCanvasSize(500, 500);
         StdDraw.setScale(0, 32767);
-        for (LineSegment seg : collinear.segments()) {
+        for (LineSegment seg : segments) {
             System.out.println(seg);
             seg.draw();
         }
         StdDraw.pause(100000);
-        */
     }
 
     @Test
-    public void testFastSegmentFind() {
+    public void testBrute8() {
+        Point[] sample = loadPoints("input8.txt");
+
+        BruteCollinearPoints collinear = new BruteCollinearPoints(sample);
+        Assert.assertEquals(2, collinear.numberOfSegments());
+        for (LineSegment seg : collinear.segments()) {
+            Assert.assertNotEquals(null, seg);
+        }
+   }
+
+    @Test
+    public void testBruteHorizontal75() {
+        Point[] sample = loadPoints("horizontal75.txt");
+
+        BruteCollinearPoints collinear = new BruteCollinearPoints(sample);
+        Assert.assertEquals(75, collinear.numberOfSegments());
+    }
+   
+    @Test
+    public void testBrute40() {
+        Point[] sample = loadPoints("input40.txt");
+
+        BruteCollinearPoints collinear = new BruteCollinearPoints(sample);
+        Assert.assertEquals(4, collinear.numberOfSegments());
+   }
+
+    @Test
+    public void testBrute48() {
+        Point[] sample = loadPoints("input48.txt");
+
+        BruteCollinearPoints collinear = new BruteCollinearPoints(sample);
+        Assert.assertEquals(6, collinear.numberOfSegments());
+    }
+
+    @Test
+    public void testBrute5OrMore() {
+        Point[] sample = loadPoints("kw1260.txt");
+
+        BruteCollinearPoints collinear = new BruteCollinearPoints(sample);
+        Assert.assertEquals(288, collinear.numberOfSegments());
+    }
+
+    @Test
+    public void testFastOneVertical() {
+        Point[] points = new Point[] {new Point(0,0), new Point(0,2), new Point(0,3), new Point(0,4)};
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        Assert.assertEquals(1, collinear.numberOfSegments());
+        Assert.assertNotEquals(null, collinear.segments()[0]);
+    }
+
+    @Test
+    public void testFastOneHorizontal() {
+        Point[] points = new Point[] {new Point(0, 0), new Point(2, 0), new Point(3, 0), new Point(4, 0)};
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        Assert.assertEquals(1, collinear.numberOfSegments());
+    }
+
+    @Test
+    public void testFastOneDiagonal() {
+        Point[] points = new Point[] {new Point(0, 0), new Point(-1, -1), new Point(1, 1), new Point(6, 6)};
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        Assert.assertEquals(1, collinear.numberOfSegments());
+    }
+
+    @Test
+    public void testFast8() {
         Point[] sample = loadPoints("input8.txt");
 
         FastCollinearPoints collinear = new FastCollinearPoints(sample);
         Assert.assertEquals(2, collinear.numberOfSegments());
-
+        for (LineSegment seg : collinear.segments()) {
+            Assert.assertNotEquals(null, seg);
+        }
     }
 
+    @Test
+    public void testFast20() {
+        Point[] sample = loadPoints("input20.txt");
+
+        FastCollinearPoints collinear = new FastCollinearPoints(sample);
+        Assert.assertEquals(5, collinear.numberOfSegments());
+    }
+
+
+    @Test
+    public void testFast40() {
+        Point[] sample = loadPoints("input40.txt");
+
+        FastCollinearPoints collinear = new FastCollinearPoints(sample);
+        Assert.assertEquals(4, collinear.numberOfSegments());
+    }
+    
+    @Test
+    public void testFast48() {
+        Point[] sample = loadPoints("input48.txt");
+
+        FastCollinearPoints collinear = new FastCollinearPoints(sample);
+        Assert.assertEquals(6, collinear.numberOfSegments());
+    }
+
+    @Test
+    public void testFastSegmentHorizontal75() {
+        Point[] sample = loadPoints("horizontal75.txt");
+
+        FastCollinearPoints collinear = new FastCollinearPoints(sample);
+        Assert.assertEquals(75, collinear.numberOfSegments());
+    }
+
+    @Test
+    public void testFastSegment5OrMore() {
+        Point[] sample = loadPoints("kw1260.txt");
+
+        FastCollinearPoints collinear = new FastCollinearPoints(sample);
+        Assert.assertEquals(288, collinear.numberOfSegments());
+    }
+   
 }

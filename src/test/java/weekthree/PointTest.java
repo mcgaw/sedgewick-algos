@@ -10,38 +10,56 @@ public class PointTest {
 
     @Test
     public void testVerticalSlope() {
-        Point a = new Point(4,5);
-        Point b = new Point(4,7);
+        Point a = new Point(4, 5);
+        Point b = new Point(4, 7);
         Assert.assertEquals(Double.POSITIVE_INFINITY, a.slopeTo(b), 0);
     }
 
     @Test
     public void testDegenerateSlope() {
-        Point a = new Point(4,4);
-        Point b = new Point(4,4);
+        Point a = new Point(4, 4);
+        Point b = new Point(4, 4);
         Assert.assertEquals(Double.NEGATIVE_INFINITY, a.slopeTo(b), 0);
     }
 
     @Test
     public void testPositiveSlope() {
-        Point a = new Point(4,4);
-        Point b = new Point(6,6);
+        Point a = new Point(4, 4);
+        Point b = new Point(6, 6);
         Assert.assertEquals(1, a.slopeTo(b), 0);
     }
 
     @Test
     public void testNegativeSlope() {
-        Point a = new Point(4,4);
-        Point b = new Point(6,2);
+        Point a = new Point(4, 4);
+        Point b = new Point(6, 2);
         Assert.assertEquals(-1, a.slopeTo(b), 0);
     }
 
     @Test
-    public void testSlopeCompare() {
-        Point origin = new Point(0,0);
+    public void testCompareVertical() {
+        Point origin = new Point(0, 0);
 
-        Point a = new Point(6,6);
-        Point b = new Point(6,2);
+        Point a = new Point(0, 6);
+        Point b = new Point(0, 2);
+        Assert.assertEquals(0, origin.slopeOrder().compare(a, b), 0.00001);
+    }
+
+    @Test
+    public void testCompareHorizontal() {
+        Point origin = new Point(0, 0);
+
+        Point a = new Point(10, 0);
+        Point b = new Point(-5, 0);
+        Assert.assertEquals(0, origin.slopeOrder().compare(a, b), 0.00001);
+    }
+
+    @Test
+    public void testSlopeCompare() {
+        Point origin = new Point(0, 0);
+
+        Point a = new Point(6, 6);
+        Point b = new Point(6, 2);
         Point c = new Point(0, -1);
 
         Comparator<Point> comp = origin.slopeOrder();

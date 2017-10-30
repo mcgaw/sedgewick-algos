@@ -15,7 +15,7 @@ import edu.princeton.cs.algs4.StdDraw;
 
 public class Point implements Comparable<Point> {
 
-    final double DOUBLE_DIFF = 0.00005;
+    private static final double DOUBLE_DIFF = 0.000000625;
 
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
@@ -30,20 +30,6 @@ public class Point implements Comparable<Point> {
         /* DO NOT MODIFY */
         this.x = x;
         this.y = y;
-    }
-
-    int x() {
-        return x;
-    }
-
-    int y() {
-        return y;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        Point p = (Point) obj;
-        return (this.x == p.x && this.y == p.y);
     }
 
     /**
@@ -82,11 +68,17 @@ public class Point implements Comparable<Point> {
 
         if (deltaX == 0) {
             if (deltaY == 0) {
+                // Overlapping points.
                 return Double.NEGATIVE_INFINITY;
             }
+            // Vertical.
             return Double.POSITIVE_INFINITY;
         }
-        return ((double)deltaY)/deltaX;
+        // Ensure positive 0.0 for horizontal.
+        if (deltaY == 0) {
+            return 0.0;
+        }
+        return ((double) deltaY)/deltaX;
     }
 
     /**
@@ -119,29 +111,25 @@ public class Point implements Comparable<Point> {
 
         final Point origin = this;
         return new Comparator<Point>() {
-
             @Override
             public int compare(Point o1, Point o2) {
                 double slope1 = origin.slopeTo(o1);
                 double slope2 = origin.slopeTo(o2);
-                // Handle when both contain INFINITY values.
+                // Handle when both contain +INFINITY or -INFINITY values.
                 if (slope1 == slope2) {
                     return 0;
                 }
-                // One INFINITY value can use arithmetic.
+                // Other cases where one of slopes may be +/- INFINITY.
                 if (Math.abs(slope1 - slope2) < DOUBLE_DIFF) {
                     return 0;
                 }
-                // Slopes are not the same.
-                double slopeDiff = slope1 - slope2;
-                if (slopeDiff < 0) {
+                if (slope1 < slope2) {
                     return -1;
                 }
                 return 1;
             }
         };
     }
-
 
     /**
      * Returns a string representation of this point.

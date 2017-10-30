@@ -104,7 +104,8 @@ public class Percolation {
         return uf.connected(0, sites.length - 1);
     }
 
-    private static void print(Percolation p) {
+    /*
+    public static void print(Percolation p) {
         for (int i = 0; i <= p.n + 1; i++) {
             StringBuffer row = new StringBuffer();
             for (int j = 1; j <= p.n; j++) {
@@ -117,4 +118,5 @@ public class Percolation {
             }
         }
     }
+    */
 }
