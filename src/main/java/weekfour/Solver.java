@@ -1,8 +1,7 @@
 package weekfour;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
@@ -16,7 +15,7 @@ public class Solver {
 
     private boolean isSolveable;
     private int numMoves;
-    private List<Board> solution = new ArrayList<>();
+    private Board[] solution;
 
     private static class SolverNode {
         public final Board b;
@@ -49,9 +48,9 @@ public class Solver {
         public SolverNode solution = null;
 
         private MinPQ<SolverNode> pq = new MinPQ<>(new BoardComparator());
-        private Board predecessor;
-               public Solver_(Board b) {
-            pq.insert(new SolverNode(b, null, 1));
+        //private Board predecessor;
+        public Solver_(Board b) {
+            pq.insert(new SolverNode(b, null, 0));
         }
 
         public Board nextStep() {
@@ -63,20 +62,25 @@ public class Solver {
                 numMoves = node.numberMoves;
                 return b;
             }
-
+            Board predecessor = null;
+            if (node.parent != null) {
+                predecessor = node.parent.b;
+            }
             for (Board n : b.neighbors()) {
+                // Catch obvious cyclic path.
                 if (predecessor != null && n.equals(predecessor)) {
                     continue;
                 }
                 pq.insert(new SolverNode(n, node, node.numberMoves + 1));
             }
-            predecessor = b;
             return null;
         } 
     }
 
     public Solver(Board initial) {
-
+        if (initial == null) {
+            throw new IllegalArgumentException();
+        }
         Solver_ initialSolver = new Solver_(initial);
         Solver_ equivalentSolver = new Solver_(initial.twin());
         Board solutionBoard = null;
@@ -91,12 +95,20 @@ public class Solver {
         if (isSolveable) {
             SolverNode current = initialSolver.solution;
             SolverNode parent = current.parent;
-            solution.add(current.b);
+            numMoves = initialSolver.numMoves;
+            solution = new Board[numMoves + 1];
+
+            // Traverse up the solution populating
+            // the solution Board array.
+            int boardNumber = numMoves;
+            solution[boardNumber] = current.b;
+            boardNumber -= 1;
             while (parent != null) {
-                solution.add(parent.b);
+                solution[boardNumber] = parent.b;
+                boardNumber -= 1;
                 parent = parent.parent;
             } 
-            numMoves = initialSolver.numMoves;
+            assert boardNumber == -1;
         }
     }
 
@@ -129,7 +141,7 @@ public class Solver {
         if (!isSolveable) {
             return null;
         }
-        return solution;
+        return Arrays.asList(solution);
     }
 
     public static void main(String[] args) {

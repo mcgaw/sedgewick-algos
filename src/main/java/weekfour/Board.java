@@ -14,13 +14,18 @@ public class Board {
     private int blockZero = -1;
     private int hammingDist;
     private int manhattanDist;
+    private Board twin;
 
     public Board(int[][] blocks) {
         this.board = blocks;
-        //this.hammingDist = calcHamming();
+        this.hammingDist = calcHamming();
         this.manhattanDist = calcManhattan();
     }
 
+    // Block at blockNumber.
+    private int block(int blockNumber) {
+        return board[blockRow(blockNumber)][blockColumn(blockNumber)];
+    }
   
     // Block number at position i,j in
     // board.
@@ -144,20 +149,20 @@ public class Board {
      * one position change.
      */
     public Board twin() {
-        int randomBlockOne = 0;
-        int randomBlockTwo = 0;
-        int blockNumber = 0;
-        int n = dimension()*dimension();
-        while (randomBlockOne == 0 || randomBlockTwo == 0 || 
-            randomBlockOne == randomBlockTwo) {
-            blockNumber = StdRandom.uniform(1, n);
-            randomBlockOne = blockNumber(blockRow(blockNumber), blockColumn(blockNumber));
-            blockNumber = StdRandom.uniform(1, n);
-            randomBlockTwo = blockNumber(blockRow(blockNumber), blockColumn(blockNumber));
+        if (twin != null) {
+            return twin;
         }
-        Board copy = copy();
-        copy.swap(randomBlockOne, randomBlockTwo); 
-        return copy;
+        int randomBlockOne = 1;
+        int randomBlockTwo = 1;
+        int n = dimension()*dimension();
+        while (block(randomBlockOne) == 0 || block(randomBlockTwo) == 0 || 
+            randomBlockOne == randomBlockTwo) {
+            randomBlockOne = StdRandom.uniform(1, n);
+            randomBlockTwo = StdRandom.uniform(1, n);
+        }
+        twin = copy();
+        twin.swap(randomBlockOne, randomBlockTwo); 
+        return twin;
     }
   
     public boolean equals(Object y) {
