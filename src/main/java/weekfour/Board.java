@@ -10,7 +10,7 @@ import edu.princeton.cs.algs4.StdRandom;
  */
 public class Board {
 
-    private int[][] board;
+    public int[][] board;
     private int blockZero = -1;
     private int hammingDist;
     private int manhattanDist;
