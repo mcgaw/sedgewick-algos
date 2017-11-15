@@ -39,6 +39,10 @@ public class PointSETTest {
     }
 
     @Test
-    public void testNearestPoint() {}
+    public void testNearestPoint() {
+        PointSET ps = circle();
+        Point2D result = ps.nearest(new Point2D(0.5, 0.1));
+        Assert.assertEquals(new Point2D(0.5, 0.0), result);
+    }
 
 }

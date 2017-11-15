@@ -68,9 +68,9 @@ public class PointSET {
         Point2D nearest = null;
         for (Point2D setPoint : points) {
             if (nearest == null) {
-                nearest = p;
+                nearest = setPoint;
             } else if (setPoint.distanceTo(p) < nearest.distanceTo(p)) {
-                nearest = p;
+                nearest = setPoint;
             }
         }
         return nearest;
