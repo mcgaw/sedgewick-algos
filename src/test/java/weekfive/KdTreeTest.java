@@ -23,10 +23,6 @@ public class KdTreeTest {
         return kdTree;
     }
 
-    private KdTree random() {
-       
-    }
-
     @Test
     public void visualTest() {
         KdTree tree = new KdTree();
@@ -34,7 +30,7 @@ public class KdTreeTest {
         tree.insert(new Point2D(0.6, 0.6));
         tree.insert(new Point2D(0.7, 0.8));
         tree.insert(new Point2D(0.2, 0.1));
-        circle().simulateDraw();
+        // circle().simulateDraw();
         try {
             Thread.sleep(5000);
         } catch (Exception e) {}
@@ -82,8 +78,8 @@ public class KdTreeTest {
         kdTree.insert(new Point2D(0.2, 0.3));
         kdTree.insert(new Point2D(0.4, 0.7));
         kdTree.insert(new Point2D(0.9, 0.6));
-        Point2D result = kdTree.nearest(new Point2D(0.741, 0.276));
-        Assert.assertEquals(new Point2D(0.7, 0.2), result);
+        Point2D result = kdTree.nearest(new Point2D(0.34, 0.4));
+        Assert.assertEquals(new Point2D(0.5, 0.4), result);
     }
 
     @Test

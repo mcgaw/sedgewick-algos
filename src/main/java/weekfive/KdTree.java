@@ -90,13 +90,13 @@ public class KdTree {
         if (n.leftRight) {
             // Point is in upper or lower half of n's bounding
             // rectangle.
-            leftRightChild = (p.y() >= n.p.y());
+            leftRightChild = (p.y() < n.p.y());
             // the upper or lower half of the parent's
             // bounding rectanlge
             if (leftRightChild) {
-                bounding = new RectHV(n.rect.xmin(), n.p.y(), n.rect.xmax(), n.rect.ymax());
-            } else {
                 bounding = new RectHV(n.rect.xmin(), n.rect.ymin(), n.rect.xmax(), n.p.y());
+            } else {
+                bounding = new RectHV(n.rect.xmin(), n.p.y(), n.rect.xmax(), n.rect.ymax());
             }
         } else {
             // Point is in left or right half of n's bounding
@@ -203,7 +203,7 @@ public class KdTree {
     }
 
    
-    /*
+    /* 
     public void simulateDraw() {
         StdDraw.setCanvasSize();
         StdDraw.setScale(0, 1);
@@ -283,9 +283,9 @@ public class KdTree {
         }
         // can only discount a branch if the point is closer to the
         // bounded area than the current closest distance.
-        // always go down the side of the splitting line that contains
+        // always first go down the side of the splitting line that contains
         // point.
-        if ((n.leftRight && point.y() > n.p.y()) || (!n.leftRight && point.x() < n.p.x())) {
+        if ((n.leftRight && point.y() < n.p.y()) || (!n.leftRight && point.x() < n.p.x())) {
             if (mayContainCloser(n.lb, point, closest.distance)) {
                 dfSearch(n.lb, point, closest);
             }
@@ -304,6 +304,9 @@ public class KdTree {
 
     // a nearest neighbor in the set to point p; null if the set is empty 
     public Point2D nearest(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException("p cannot be null");
+        }
         if (root == null) {
             return null;
         }
