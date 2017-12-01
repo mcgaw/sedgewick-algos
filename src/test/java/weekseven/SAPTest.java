@@ -16,7 +16,7 @@ public class SAPTest {
         Assert.assertTrue(sap.ancestor(0, 2) == 1);
         Assert.assertTrue(sap.ancestor(0, 1) == -1);
         Assert.assertTrue(sap.ancestor(1, 2) == -1);
-        Assert.assertTrue(sap.length(0, 2) == 1);
+        Assert.assertTrue(sap.length(0, 2) == 2);
         Assert.assertTrue(sap.length(1, 0) == -1);
         Assert.assertTrue(sap.length(2, 1) == -1);
     }

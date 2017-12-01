@@ -1,14 +1,12 @@
 package weekseven;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.princeton.cs.algs4.Digraph;  
+import edu.princeton.cs.algs4.Digraph;
+import edu.princeton.cs.algs4.In;  
 
 public class WordNet {
    
@@ -21,32 +19,29 @@ public class WordNet {
         wordNodes = new HashMap<>();
         syns = new ArrayList<>();
         int wordNode = 0;
-        try (BufferedReader r = new BufferedReader(new FileReader(synsets))) {
-            String line;
-            while ( (line = r.readLine()) != null) {
-                String nouns = line.split(",")[1];
-                syns.add(nouns);
-                String[] syns = nouns.split(" ");
-                for (String syn : syns) {
-                    wordNodes.put(syn, wordNode);
-                }
-                wordNode++;
+
+        In in = new In(synsets);
+        while (in.hasNextLine()) {
+            String line = in.readLine();
+            String nouns = line.split(",")[1];
+            syns.add(nouns);
+            String[] syns = nouns.split(" ");
+            for (String syn : syns) {
+                wordNodes.put(syn, wordNode);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            wordNode++;
         }
 
         Digraph g = new Digraph(wordNode);
-        try (BufferedReader r = new BufferedReader(new FileReader(hypernyms))) {
-            String line;
-            while ( (line = r.readLine()) != null) {
-                String[] path = line.split(",");
-                g.addEdge(Integer.parseInt(path[0]), Integer.parseInt(path[1]));
+        in = new In(hypernyms);
+        while (in.hasNextLine()) {
+            String line = in.readLine();
+            String[] path = line.split(",");
+            for (int n = 1; n < path.length; n++) {
+                g.addEdge(Integer.parseInt(path[0]), Integer.parseInt(path[n]));
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
-        sap = new SAP(g);
+       sap = new SAP(g);
     }
     
     // returns all WordNet nouns
