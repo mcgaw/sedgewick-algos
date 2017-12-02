@@ -17,4 +17,10 @@ public class WordNetTest {
         Assert.assertTrue(wn.distance("gluten", "keratin") == 4);
     }
 
+    @Test
+    public void testFull() {
+        WordNet wn = new WordNet(testFilePath("synsets.txt"), testFilePath("hypernyms.txt"));
+        Assert.assertTrue(wn.distance("Gota_Canal", "sweet_orange") == 15);
+    }
+
 }
