@@ -5,13 +5,12 @@ import org.junit.Test;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
+import util.Util;
 
 public class CollinearTest {
 
-
     private Point[] loadPoints(String fileName) {
-        String path = CollinearTest.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        In file = new In("file://"+path+"weekthree/collineartests/"+fileName);
+        In file = new In(Util.getFileUrl("weekthree/collineartests", fileName));
         int numberPoints = file.readInt();
         Point[] points = new Point[numberPoints];
 

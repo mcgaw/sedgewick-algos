@@ -1,26 +1,27 @@
 package weekeight;
 
-import java.io.File;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import edu.princeton.cs.algs4.Picture;
+import util.Util;
 
 public class SeamCarverTest {
 
+    private static String RES_PATH = "weekeight/seam";
+
     private SeamCarver seam5x6() {
-        Picture pic = new Picture(new File("src/main/java/weekeight/seam/5x6.png"));
+        Picture pic = new Picture(Util.getFileUrl(RES_PATH, "5x6.png"));
         return new SeamCarver(pic);
     }
 
     private SeamCarver seam8x1() {
-        Picture pic = new Picture(new File("src/main/java/weekeight/seam/8x1.png"));
+        Picture pic = new Picture(Util.getFileUrl(RES_PATH, "8x1.png"));
         return new SeamCarver(pic);
     }
 
     private SeamCarver seam1x8() {
-        Picture pic = new Picture(new File("src/main/java/weekeight/seam/1x8.png"));
+        Picture pic = new Picture(Util.getFileUrl(RES_PATH, "1x8.png"));
         return new SeamCarver(pic);
     }
 
