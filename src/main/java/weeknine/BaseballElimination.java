@@ -245,7 +245,7 @@ public class BaseballElimination {
       if (ff.inCut(vert)) {
         if (vert >= net.V() - (n + 1)) {
           int flowTeamIndex = n - (net.V() - vert);
-          // Effectively map the team index of flow networ
+          // Effectively map the team index of flow network
           // to league index.
           if (flowTeamIndex >= teams.get(team)) {
             flowTeamIndex++;
@@ -256,7 +256,6 @@ public class BaseballElimination {
       }
     }
 
-    // Check average number of wins for teams in the subset.
     return certTeams;
   }
 
