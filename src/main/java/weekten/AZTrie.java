@@ -1,7 +1,5 @@
 package weekten;
 
-import java.util.Arrays;
-
 public class AZTrie {
 
   private static int linkPos(Character c) {
@@ -12,7 +10,7 @@ public class AZTrie {
 
     public final Node parent;
     public final Character c;
-    public Integer word;
+    public String word;
     private final Node[] links = new Node[26];
 
     // creates a new root Node
@@ -22,7 +20,7 @@ public class AZTrie {
       this.c = null;
     }
 
-    private Node(Node parent, Character c, Integer word) {
+    private Node(Node parent, Character c, String word) {
       this.parent = parent;
       this.c = c;
       this.word = word;
@@ -35,14 +33,14 @@ public class AZTrie {
       return newNode;
     }
 
-    public Node addChar(Character c, Integer word) {
+    public Node addChar(Character c, String word) {
       Node n = this.addChar(c);
       n.setWord(word);
       return n;
     }
 
-    public void setWord(Integer word) {
-      if (this.word != null) {
+    public void setWord(String word) {
+      if (this.word != null && !this.word.equals(word)) {
         throw new RuntimeException("tyring to reset node with word " + word + " but contains " + this.word);
       }
       this.word = word;
@@ -58,43 +56,43 @@ public class AZTrie {
   }
 
   public final Node root;
-  private String[] dic;
 
   public AZTrie() {
     root = new Node();
-    dic = new String[0];
   }
 
   public void put(String word) {
-    // TODO existing word
-    int wordIdx = dic.length;
-    dic = Arrays.copyOf(dic, wordIdx + 1);
-    dic[wordIdx] = word;
-
     int chars = 0; 
     Node n = root;
-    boolean added = false;
     while (chars < word.length()) {
       Character c = word.charAt(chars);
-      Node child = n.child(c);
-      boolean lastLetter = (chars == word.length() - 1);
-      if (child == null) {
-        if (lastLetter) {
-          n.addChar(c, wordIdx);
-          added = true;
-          break;
-        }
-        n = n.addChar(c);
-      } else {
-        if (lastLetter) {
-          added = true;
-          child.setWord(wordIdx);
-        }
-        n = child;
+      if (c.equals('Q') && (chars == word.length() - 1 || word.charAt(chars + 1) != 'U')) {
+        break;
       }
-      chars++;
+      Node child = n.child(c);
+      boolean lastLetter = chars == word.length() - 1 ||
+          (c.equals('Q') && chars + 2 == word.length());
+
+      if (lastLetter) {
+        if (child == null) {
+          n.addChar(c, word);
+        } else {
+          child.setWord(word);
+        }
+      } else {
+        if (child == null) {
+          n = n.addChar(c);
+        } else {
+          n = child;
+        }
+      }
+
+      if (c.equals('Q')) {
+        chars += 2;
+      } else {
+        chars++;
+      }
     }
-    assert added;
   } 
 
 }
