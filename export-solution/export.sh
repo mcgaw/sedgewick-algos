@@ -9,6 +9,7 @@ declare -A files=(
 	["week8"]="weekeight/SeamCarver.java"
 	["week9"]="weeknine/BaseballElimination.java"
 	["week10"]="weekten/BoggleSolver.java weekten/AZTrie.java"
+	["week11"]="weekeleven/CircularSuffixArray.java weekeleven/MoveToFront.java weekeleven/BurrowsWheeler.java"
 )
 
 # Directory the sripts is being run in.
@@ -26,6 +27,12 @@ function exists ()
 }
 
 ZIP="$1"
+if exists $ZIP;
+then
+	echo "Zip file already exists"
+	exit 1
+fi
+
 TMP="/tmp/algos-export"
 if ! exists $TMP;
 then

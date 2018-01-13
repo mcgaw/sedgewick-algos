@@ -1,2 +1,3 @@
+#! /bin/bash
 export MAVEN_OPTS="-ea"
-mvn exec:java -Dexec.mainClass=$1 -Dexec.args="$2 $3 $4 $5"
+mvn exec:java -Dexec.mainClass=$1 -Dexec.args="$@"
